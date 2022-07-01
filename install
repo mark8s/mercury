@@ -235,24 +235,7 @@ nodes:
   extraMounts:
   - hostPath: /var/run/docker.sock
     containerPath: /var/run/docker.sock
-- role: worker
-  extraMounts:
-  - hostPath: /var/run/docker.sock
-    containerPath: /var/run/docker.sock
-- role: worker
-  extraMounts:
-  - hostPath: /var/run/docker.sock
-    containerPath: /var/run/docker.sock
-kubeadmConfigPatches:
-- |
-  apiVersion: kubeadm.k8s.io/v1beta2
-  kind: ClusterConfiguration
-  apiServer:
-    extraArgs:
-      service-account-api-audiences: "api"
-      service-account-signing-key-file: "/etc/kubernetes/pki/sa.key"
-      service-account-issuer: "kubernetes.default.svc"
-extraPortMappings:
+  extraPortMappings:
   - containerPort: 80
     hostPort: 20080
     listenAddress: "0.0.0.0" # Optional, defaults to "0.0.0.0"
@@ -308,7 +291,24 @@ extraPortMappings:
   - containerPort: 30205
     hostPort: 30205
     listenAddress: "0.0.0.0" # Optional, defaults to "0.0.0.0"
-    protocol: tcp # Optional, defaults to tcp  
+    protocol: tcp # Optional, defaults to tcp
+- role: worker
+  extraMounts:
+  - hostPath: /var/run/docker.sock
+    containerPath: /var/run/docker.sock
+- role: worker
+  extraMounts:
+  - hostPath: /var/run/docker.sock
+    containerPath: /var/run/docker.sock
+kubeadmConfigPatches:
+- |
+  apiVersion: kubeadm.k8s.io/v1beta2
+  kind: ClusterConfiguration
+  apiServer:
+    extraArgs:
+      service-account-api-audiences: "api"
+      service-account-signing-key-file: "/etc/kubernetes/pki/sa.key"
+      service-account-issuer: "kubernetes.default.svc"
 EOF
 
   wait
